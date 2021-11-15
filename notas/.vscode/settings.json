@@ -1,0 +1,4 @@
+{
+    "solidity.compileUsingLocalVersion": "latest",
+    "solidity.compileUsingRemoteVersion": "latest",
+}
