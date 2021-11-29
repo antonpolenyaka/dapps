@@ -39442,7 +39442,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-24T06:10:21.801Z",
+  "updatedAt": "2021-11-26T05:43:41.291Z",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {

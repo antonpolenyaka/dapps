@@ -2009,8 +2009,8 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x5d8EC388474F8069CeB14f733D40604D509172B2",
-      "transactionHash": "0x94f12fe742b89b9c7243939019d6546f99b557969a2b104374e752e57b5fa8b2"
+      "address": "0xD5B762e79034e6797e33Eb512172A2eCb6fa4Df2",
+      "transactionHash": "0x24ed1768fe17540d50604f4ab38605afd15d14240861bfeaefefb7af48944d6b"
     },
     "5777": {
       "events": {},
@@ -2020,7 +2020,7 @@
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-24T06:10:31.034Z",
+  "updatedAt": "2021-11-26T05:44:10.600Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {
