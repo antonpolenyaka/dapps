@@ -65,11 +65,13 @@ class App extends Component {
     };
   }
 
-  envio = async (direccion, cantidad, mensaje) => {
+  envio = async (direccion, cantidad, ethers, mensaje) => {
     try {
       console.log(mensaje);
       const accounts = await web3.eth.getAccounts();
-      await this.state.contract.methods.send_tokens(direccion, cantidad).send({ from: accounts[0] });
+      console.log('web3.eth.getAccounts');
+      await this.state.contract.methods.send_tokens(direccion, cantidad).send({ from: accounts[0], value: ethers });
+      console.log('methods.send_tokens');
     } catch (err) {
       this.setState({ errorMessage: err.message });
     } finally {
@@ -96,6 +98,20 @@ class App extends Component {
       const balance_contract = await this.state.contract.methods.balance_contrato().call();
       alert(parseFloat(balance_contract)); // Usamos pareseFloat por si trabajamos con cantidades altas
       //this.setState({ address_balance: balance_direccion });
+    } catch (err) {
+      this.setState({ errorMessage: err.message });
+    } finally {
+      this.setState({ loading: false });
+    }
+  }
+
+  generar = async (cantidad, mensaje) => {
+    try {
+      console.log(mensaje);
+      const accounts = await web3.eth.getAccounts();
+      console.log('web3.eth.getAccounts');
+      await this.state.contract.methods.GenerarTokens(cantidad).send({ from: accounts[0] });
+      console.log('methods.send_tokens');
     } catch (err) {
       this.setState({ errorMessage: err.message });
     } finally {
@@ -134,8 +150,9 @@ class App extends Component {
                   event.preventDefault();
                   const direccion = this.direccion.value;
                   const cantidad = this.cantidad.value;
+                  const ethers = web3.utils.toWei(this.cantidad.value, 'ether');
                   const mensaje = 'Compra de tokens en ejecución...';
-                  this.envio(direccion, cantidad, mensaje);
+                  this.envio(direccion, cantidad, ethers, mensaje);
                 }}>
                   <input type='text'
                     className='form-control mb-1'
@@ -144,7 +161,7 @@ class App extends Component {
 
                   <input type='text'
                     className='form-control mb-1'
-                    placeholder='Cantidad de tokens a comprar'
+                    placeholder='Cantidad de tokens a comprar (1 token = 1 ether)'
                     ref={input => { this.cantidad = input }} />
 
                   <input type='submit'
@@ -183,6 +200,26 @@ class App extends Component {
                     className='btn btn-block btn-success btn-sm'
                     value='Balance contato' />
                 </form>
+
+                &nbsp;
+
+                <h1>Generar tokens</h1>
+                <form onSubmit={(event) => {
+                  event.preventDefault();
+                  const cantidad = this.cantidad.value;
+                  const mensaje = 'Generar tokens en ejecución...';
+                  this.generar(cantidad, mensaje);
+                }}>
+                  <input type='text'
+                    className='form-control mb-1'
+                    placeholder='Cantidad de tokens a generar'
+                    ref={input => { this.cantidad = input }} />
+
+                  <input type='submit'
+                    className='btn btn-block btn-danger btn-sm'
+                    value='Generar tokens' />
+                </form>
+
               </div>
             </main>
           </div>

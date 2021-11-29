@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.4 < 0.7.0;
+pragma solidity >= 0.8.10 <0.9.0;
 pragma experimental ABIEncoderV2;
 import "./SafeMath.sol";
 
@@ -45,17 +45,13 @@ contract ERC20Basic is IERC20{
     string public constant symbol = "ERC";
     uint8 public constant decimals = 18;
 
-    event Transfer(address indexed from, address indexed to, uint256 tokens);
-    event Approval(address indexed owner, address indexed spender, uint256 tokens);
-
-
     using SafeMath for uint256;
 
     mapping (address => uint) balances;
     mapping (address => mapping (address => uint)) allowed;
     uint256 totalSupply_;
 
-    constructor (uint256 initialSupply) public{
+    constructor (uint256 initialSupply) {
         totalSupply_ = initialSupply;
         balances[msg.sender] = totalSupply_;
     }
