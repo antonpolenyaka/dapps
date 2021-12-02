@@ -19,7 +19,7 @@ contract loteria {
     // Evento de compra de tokens 
     event ComprandoTokens (uint, address);
     
-    constructor () public {
+    constructor () {
         token = new ERC20Basic(tokens_creados);
         owner = msg.sender;
         contrato = address(this);
@@ -52,7 +52,7 @@ contract loteria {
         // Diferencia a pagar 
         uint returnValue = msg.value - coste;
         // Tranferencia de la diferencia 
-        msg.sender.transfer(returnValue);
+        payable(msg.sender).transfer(returnValue);
         // Obtener el balance de Tokens del contrato 
         uint Balance = TokensDisponibles();
         // Filtro para evaluar los tokens a comprar con los tokens disponibles 
@@ -118,7 +118,7 @@ contract loteria {
         Dando un valor aleatorio entre 0 - 9999.
         */
         for (uint i = 0; i < _boletos; i++) {
-            uint random = uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % 10000;
+            uint random = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, randNonce))) % 10000;
             randNonce++;
             // Almacenamos los datos de los boletos 
             idPersona_boletos[msg.sender].push(random);
@@ -145,7 +145,7 @@ contract loteria {
         uint longitud = boletos_comprados.length;
         // Aleatoriamente elijo un numero entre: 0 - Longitud 
         // 1 - Eleccion de una posicion aleatoria del array 
-        uint posicion_array = uint(uint(keccak256(abi.encodePacked(now))) % longitud);
+        uint posicion_array = uint(uint(keccak256(abi.encodePacked(block.timestamp))) % longitud);
         // 2- Seleccion del numero aleatorio mediante la posicion del array aleatoria
         uint eleccion = boletos_comprados[posicion_array];
         // Emision del evento del ganador 
@@ -166,7 +166,7 @@ contract loteria {
         // 1. El cliente devuelva los tokens
         // 2. La loteria paga los tokens devueltos en ethers
         token.transferencia_loteria(msg.sender, address(this), _numTokens);
-        msg.sender.transfer(PrecioTokens(_numTokens));
+        payable(msg.sender).transfer(PrecioTokens(_numTokens));
         // Emision del evento 
         emit tokens_devueltos(_numTokens, msg.sender);
     }
