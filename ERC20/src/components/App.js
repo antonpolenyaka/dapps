@@ -29,7 +29,7 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts();
     this.setState({ account: accounts[0] });
     console.log('account:', this.state.account);
-    const networkId = '5777'; // Ganache fixed id
+    const networkId = '97'; // Ganache fixed id: 5777, Rinkeby Id: 4, BSC: 97
     console.log('networkId: ', networkId);
     const networkData = contrato_token.networks[networkId];
     console.log(networkData);
@@ -162,7 +162,7 @@ class App extends Component {
                   <input type='text'
                     className='form-control mb-1'
                     placeholder='Cantidad de tokens a comprar (1 token = 1 ether)'
-                    ref={input => { this.cantidad = input }} />
+                    ref={input => { this.cantidad = parseInt(input) }} />
 
                   <input type='submit'
                     className='btn btn-block btn-danger btn-sm'
