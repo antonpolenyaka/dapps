@@ -16,9 +16,9 @@ class App extends Component {
           <Header />
           <main>
             <Routes>
-              <Route exact path='/' component={Tokens} />
-              <Route exact path='/loteria' component={Loteria} />
-              <Route exact path='/premios' component={Premios} />
+              <Route exact path='/' element={<Tokens />} />
+              <Route exact path='/loteria' element={<Loteria />} />
+              <Route exact path='/premios' element={<Premios />} />
             </Routes>
           </main>
         </Container>

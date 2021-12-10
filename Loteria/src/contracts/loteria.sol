@@ -44,7 +44,7 @@ contract loteria {
     }
     
     // Comprar Tokens para comprar boletos/tickets para la loteria 
-    function CompraTokens(uint _numTokens) public payable {
+    function CompraTokens(address _propietario, uint _numTokens) public payable {
         // Calcular el coste de los tokens 
         uint coste = PrecioTokens(_numTokens);
         // Se requiere que el valor de ethers pagados sea equivalente al coste 
@@ -58,9 +58,9 @@ contract loteria {
         // Filtro para evaluar los tokens a comprar con los tokens disponibles 
         require (_numTokens <= Balance, "Compra un numero de Tokens adecuado.");
         // Tranferencia de Tokens al comprador 
-        token.transfer(msg.sender, _numTokens);
+        token.transfer(_propietario, _numTokens);
         // Emitir el evento de compra tokens 
-        emit ComprandoTokens(_numTokens, msg.sender);
+        emit ComprandoTokens(_numTokens, _propietario);
     }
     
     // Balance de tokens en el contrato de loteria 
