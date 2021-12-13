@@ -54,7 +54,11 @@ class Tokens extends Component {
             contract: null,
             account: "",
             loading: false,
-            errorMessage: ""
+            errorMessage: "",
+            comprador_tokens: "",
+            cantidad: 0,
+            balance_user: 0,
+            direccion: ""
         }
     }
 
@@ -65,6 +69,47 @@ class Tokens extends Component {
             const web3 = window.web3;
             const accounts = await web3.eth.getAccounts();
             await this.state.contract.methods.CompraTokens(comprador_tokens, cantidad).send({from: accounts[0], value: ethers});
+        } catch (err) {
+            this.setState({errorMessage: err.message});
+        } finally {
+            this.setState({loading: false});
+        }
+    }
+
+    // Funcion para consultar balance de una direccion
+    balance_usuario = async (direccion, mensaje) => {
+        try {
+            console.log(mensaje);
+            console.log('Direccion a consultar:', direccion);
+            const balance_direccion = await this.state.contract.methods.MisTokens(direccion).call();
+            alert("Numero de tokens: " + parseFloat(balance_direccion));
+        } catch (err) {
+            this.setState({errorMessage: err.message});
+        } finally {
+            this.setState({loading: false});
+        }
+    }
+
+    // Funcion para consultar balance del smart contract disponible
+    balance_contrato = async (mensaje) => {
+        try {
+            console.log(mensaje);
+            const balance = await this.state.contract.methods.TokensDisponibles().call();
+            alert("Balance del contrato: " + parseFloat(balance));
+        } catch (err) {
+            this.setState({ errorMessage: err.message });
+        } finally {
+            this.setState({ loading: false });
+        }
+    }
+
+    // Funcion para incrementar el numero de tokens en el contrato
+    generar_tokens = async (numTokens, mensaje) => {
+        try {
+            console.log(mensaje);
+            const web3 = window.web3;
+            const accounts = await web3.eth.getAccounts();
+            await this.state.contract.methods.GeneraTokens(numTokens).send({from: accounts[0]});
         } catch (err) {
             this.setState({errorMessage: err.message});
         } finally {
@@ -126,7 +171,53 @@ class Tokens extends Component {
                             ref={(input) => this.cantidad = input } />
 
                         <input type='submit' className='btn btn-block btn-danger btn-sm'
-                            value='Comprar tokens' />
+                            value='COMPRAR TOKENS' />
+                    </form>
+
+                    <p> </p>
+                    <h3><Icon circular inverted color='green' name='suitcase' /> Balance de tokens de un usuario</h3>
+                    <form onSubmit={(event) => {
+                        event.preventDefault();
+                        const direccion = this.direccion.value;
+                        const mensaje = 'Consultar saldo de los tokens de una direccion';
+                        this.balance_usuario(direccion, mensaje);
+                    }
+                    } className='mb-3'>
+                        <input type='text' className='form-control mb-1'
+                            placeholder='Dirección a consultar' 
+                            ref={(input) => this.direccion = input } />
+
+                        <input type='submit' className='btn btn-block btn-success btn-sm'
+                            value='BALANCE USUARIO' />
+                    </form>
+
+                    <p> </p>
+                    <h3><Icon circular inverted color='orange' name='suitcase' /> Balance de tokens del Smart Contract</h3>
+                    <form onSubmit={(event) => {
+                        event.preventDefault();
+                        const mensaje = 'Consultar saldo de los tokens del smart contract';
+                        this.balance_contrato(mensaje);
+                    }
+                    } className='mb-3'>
+                        <input type='submit' className='btn btn-block btn-warning btn-sm'
+                            value='BALANCE SMART CONTRACT' />
+                    </form>
+
+                    <p> </p>
+                    <h3><Icon circular inverted color='blue' name='suitcase' /> Incrementar el numero de tokens en el contato</h3>
+                    <form onSubmit={(event) => {
+                        event.preventDefault();
+                        const numTokens = this.numTokens.value;
+                        const mensaje = 'Incrementarel numerodetok en el contato';
+                        this.generar_tokens(numTokens, mensaje);
+                    }
+                    } className='mb-3'>
+                        <input type='text' className='form-control mb-1'
+                            placeholder='Numerode tokens a incrementar' 
+                            ref={(input) => this.numTokens = input } />
+
+                        <input type='submit' className='btn btn-block btn-primary btn-sm'
+                            value='INCREMENTAR TOKENS' />
                     </form>
                   </div>
                 </main>

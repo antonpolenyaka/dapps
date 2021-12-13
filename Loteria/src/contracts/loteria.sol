@@ -74,8 +74,8 @@ contract loteria {
     }
     
     // Balance de Tokens de una persona 
-    function MisTokens() public view returns (uint) {
-        return token.balanceOf(msg.sender);
+    function MisTokens(address direccion) public view returns (uint) {
+        return token.balanceOf(direccion);
     }
     
     // ----------------------------------------  LOTERIA ----------------------------------------
@@ -100,7 +100,7 @@ contract loteria {
         // Precio total de los boletos a comprar
         uint precio_total = _boletos*PrecioBoleto;
         // Filtrado de los tokens a pagar 
-        require (precio_total <= MisTokens(), "Necesitas comprar mas tokens.");
+        require (precio_total <= MisTokens(msg.sender), "Necesitas comprar mas tokens.");
         // Transferencia de tokens al owner -> bote/premio
         /* El cliente paga la atraccion en Tokens:
         - Ha sido necesario crear una funcion en ERC20.sol con el nombre de: 'transferencia_loteria'
@@ -161,7 +161,7 @@ contract loteria {
         // El numero de tokens a devolver debe ser mayor a 0 
         require(_numTokens > 0 , "Necesitas devolver un numero positivo de tokens.");
         // El usuario/cliente debe tener los tokens que desea devolver 
-        require (_numTokens <= MisTokens(), "No tienes los tokens que deseas devolver.");
+        require (_numTokens <= MisTokens(msg.sender), "No tienes los tokens que deseas devolver.");
         // DEVOLUCION:
         // 1. El cliente devuelva los tokens
         // 2. La loteria paga los tokens devueltos en ethers
