@@ -12,7 +12,8 @@ contract loteria {
     // Direcciones 
     address public owner;
     address public contrato;
-    
+    address public direccion_ganador;
+
     // Numero de tokens a crear 
     uint tokens_creados = 10000;
     
@@ -151,7 +152,7 @@ contract loteria {
         // Emision del evento del ganador 
         emit boleto_ganador(eleccion);
         // Recuperar la direccion del ganador 
-        address direccion_ganador = ADN_boleto[eleccion];
+        direccion_ganador = ADN_boleto[eleccion];
         // Enviarle los tokens del premio al ganador 
         token.transferencia_loteria(msg.sender, direccion_ganador, Bote());
     }

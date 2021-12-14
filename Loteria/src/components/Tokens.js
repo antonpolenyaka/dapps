@@ -30,7 +30,7 @@ class Tokens extends Component {
         const accounts = await web3.eth.getAccounts();
         this.setState({account: accounts[0]});
         console.log("Account:", this.state.account);
-        const networkId = '5777'; // Ganache 5777, rinkeby 4, BSC 97
+        const networkId = '97'; // Ganache 5777, rinkeby 4, BSC 97
         console.log('Network id:', networkId);
         const networkData = contrato_loteria.networks[networkId];
         console.log("Network data:", networkData);
