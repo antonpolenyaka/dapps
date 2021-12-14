@@ -1,7 +1,7 @@
 require('babel-register');
 require('babel-polyfill');
 
-var mnemonic = "coach depend vapor crane account whisper section sword pupil now cloud confirm";
+var mnemonic = "frase semilla";
 var HDWalletProvider = require("truffle-hdwallet-provider");
 
 module.exports = {
