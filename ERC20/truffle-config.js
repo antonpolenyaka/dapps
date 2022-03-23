@@ -1,7 +1,8 @@
 require('babel-register');
 require('babel-polyfill');
 
-var mnemonic = "MI FRASE SEMILLA";
+const fs = require('fs');
+const mnemonic = fs.readFileSync(".secret").toString().trim();
 var HDWalletProvider = require("truffle-hdwallet-provider")
 
 module.exports = {

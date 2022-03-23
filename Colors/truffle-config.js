@@ -1,6 +1,9 @@
 require('babel-register');
 require('babel-polyfill');
 
+const fs = require('fs');
+const mnemonic = fs.readFileSync(".secret").toString().trim();
+
 module.exports = {
   networks: {
     development: {
